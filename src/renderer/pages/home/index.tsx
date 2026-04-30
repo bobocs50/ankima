@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export default function App() {
+export default function HomePage() {
   const [version, setVersion] = useState<string>('...');
 
   useEffect(() => {
