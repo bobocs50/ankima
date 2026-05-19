@@ -1,70 +1,88 @@
 import {
-  Headphones,
-  Mic,
-  Send,
-  Paperclip,
-  Sparkles,
-  MoreVertical
+  CornerDownLeft,
+  Ban,
+  Image,
+  Eye,
+  LayoutGrid,
+  AudioLines,
+  ChevronDown
 } from 'lucide-react';
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#14161c] px-6 py-10 text-white">
-      <div className="mx-auto w-full max-w-[740px]">
-        <div className="flex h-[62px] w-full items-center gap-[10px] rounded-[18px] border border-black/10 bg-[linear-gradient(180deg,rgba(112,98,79,0.92)_0%,rgba(96,84,67,0.92)_100%)] px-[10px] shadow-[0_14px_30px_rgba(46,31,16,0.24),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl">
-          <div className="flex shrink-0 items-center gap-[8px]">
+    <main className="h-screen w-screen">
+      {/* Draggable glass container - Cluely style */}
+      <div className="draggable-area flex flex-col h-full">
+        {/* Row 1: Search Input - Lighter */}
+        <div className="flex items-center px-5 py-4 gap-3 bg-[rgba(80,70,90,0.85)] backdrop-blur-2xl">
+          <input
+            type="text"
+            placeholder="Ask anything about your screen"
+            className="flex-1 bg-transparent text-white/90 placeholder:text-white/70 text-[15px] focus:outline-none"
+          />
+          <button
+            type="button"
+            className="flex items-center justify-center rounded-lg bg-white/20 p-2.5 text-white/80 transition-colors hover:bg-white/30"
+            aria-label="Submit"
+          >
+            <CornerDownLeft className="size-4" />
+          </button>
+        </div>
+
+        {/* Row 2: Action Icons - Darker */}
+        <div className="flex items-center px-5 py-4 bg-[rgba(35,30,45,0.9)] backdrop-blur-2xl">
+          {/* Left: Disable - fixed width for balance */}
+          <div className="w-20">
             <button
               type="button"
-              className="inline-flex size-[42px] shrink-0 items-center justify-center rounded-[14px] border border-black/5 bg-[#ece9e4] text-[#49423b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] transition-colors hover:bg-[#f3f0eb]"
-              aria-label="Audio output"
+              className="text-white/50 transition-colors hover:text-white/80"
+              aria-label="Disable"
             >
-              <Headphones className="size-[18px]" />
-            </button>
-            <button
-              type="button"
-              className="inline-flex size-[42px] shrink-0 items-center justify-center rounded-[14px] border border-black/5 bg-[#ece9e4] text-[#49423b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] transition-colors hover:bg-[#f3f0eb]"
-              aria-label="Voice input"
-            >
-              <Mic className="size-[18px]" />
+              <Ban className="size-5" />
             </button>
           </div>
 
-          <label className="flex min-w-0 flex-1 items-center rounded-[15px] border border-white/10 bg-[rgba(88,78,64,0.34)] px-[16px] py-[10px] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
-            <input
-              type="text"
-              placeholder="Ask me anything..."
-              className="w-full bg-transparent text-[16px] font-medium text-[#d2cbc2] placeholder:text-[#c3bbb1]/70 focus:outline-none"
-            />
-          </label>
+          {/* Center: Tools - flex-1 and centered */}
+          <div className="flex-1 flex items-center justify-center gap-6">
+            <button
+              type="button"
+              className="text-white/50 transition-colors hover:text-white/80"
+              aria-label="Screenshot"
+            >
+              <Image className="size-5" />
+            </button>
+            <button
+              type="button"
+              className="text-white/50 transition-colors hover:text-white/80"
+              aria-label="Vision"
+            >
+              <Eye className="size-5" />
+            </button>
+            <button
+              type="button"
+              className="text-white/50 transition-colors hover:text-white/80"
+              aria-label="Grid"
+            >
+              <LayoutGrid className="size-5" />
+            </button>
+            <button
+              type="button"
+              className="text-white/50 transition-colors hover:text-white/80"
+              aria-label="Audio"
+            >
+              <AudioLines className="size-5" />
+            </button>
+          </div>
 
-          <div className="flex shrink-0 items-center gap-[8px]">
+          {/* Right: History - fixed width for balance */}
+          <div className="w-20 flex justify-end">
             <button
               type="button"
-              className="inline-flex size-[42px] shrink-0 items-center justify-center rounded-[14px] border border-black/5 bg-[#ece9e4] text-[#49423b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] transition-colors hover:bg-[#f3f0eb]"
-              aria-label="Send"
+              className="flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[13px] text-white/60 transition-colors hover:bg-white/25"
+              aria-label="History"
             >
-              <Send className="size-[18px]" />
-            </button>
-            <button
-              type="button"
-              className="inline-flex size-[42px] shrink-0 items-center justify-center rounded-[14px] border border-black/5 bg-[#ece9e4] text-[#49423b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] transition-colors hover:bg-[#f3f0eb]"
-              aria-label="Attach file"
-            >
-              <Paperclip className="size-[18px]" />
-            </button>
-            <button
-              type="button"
-              className="inline-flex size-[42px] shrink-0 items-center justify-center rounded-[14px] border border-black/5 bg-[#ece9e4] text-[#49423b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] transition-colors hover:bg-[#f3f0eb]"
-              aria-label="Tools"
-            >
-              <Sparkles className="size-[18px]" />
-            </button>
-            <button
-              type="button"
-              className="inline-flex size-[42px] shrink-0 items-center justify-center rounded-[14px] border border-black/5 bg-[#ece9e4] text-[#49423b] shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] transition-colors hover:bg-[#f3f0eb]"
-              aria-label="More"
-            >
-              <MoreVertical className="size-[18px]" />
+              History
+              <ChevronDown className="size-4" />
             </button>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, screen } from 'electron';
 import path from 'node:path';
 import './ipc';
 
@@ -6,17 +6,27 @@ const isDev = !app.isPackaged;
 
 function createWindow() {
   const window = new BrowserWindow({
-    width: 1280,
-    height: 840,
-    minWidth: 960,
-    minHeight: 640,
-    backgroundColor: '#0f1115',
+    width: 680,
+    height: 125,
+    frame: false,
+    transparent: true,
+    alwaysOnTop: true,
+    hasShadow: false,
+    resizable: false,
+    skipTaskbar: false,
+    backgroundColor: '#00000000',
     webPreferences: {
       preload: path.join(__dirname, '../preload/preload.js'),
       contextIsolation: true,
       nodeIntegration: false
     }
   });
+
+  // Position at top center of screen
+  const display = screen.getPrimaryDisplay();
+  const x = Math.round((display.bounds.width - 680) / 2);
+  const y = 40;
+  window.setPosition(x, y);
 
   if (isDev) {
     void window.loadURL('http://localhost:5173');
