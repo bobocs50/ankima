@@ -59,3 +59,56 @@ Useful commands:
 - [Vision](notes/VISION.md)
 - [Roadmap](notes/ROADMAP.md)
 - [Architecture](notes/ARCHITECTURE.md)
+
+## Claude Code Best Practices
+
+Guidelines for working with Claude Code on this project (via Anthropic CEO):
+
+### 1. Plan Mode Default
+- Enter plan mode for ANY non-trivial task (3+ steps or architectural decisions)
+- If something goes sideways, STOP and re-plan immediately; don't keep pushing
+- Use plan mode for verification steps, not just implementation
+- Write detailed specs upfront to reduce ambiguity
+
+### 2. Parallel Execution Strategy
+- Use parallel tool calls liberally to keep momentum high and context clean
+- Offload research, exploration, and independent checks into parallel workstreams
+- For complex problems, increase parallel analysis before committing edits
+- One clear objective per workstream for focused execution
+
+### 3. Self-Improvement Loop
+- After ANY correction from the user: record the pattern in session notes
+- Write a concrete rule that prevents the same mistake
+- Ruthlessly iterate on these rules until mistake rate drops
+- Review relevant prior notes at the start of each new task
+
+### 4. Verification Before Done
+- Never mark a task complete without proving it works
+- Diff behavior between baseline and your changes when relevant
+- Ask yourself: "Would a staff engineer approve this?"
+- Run lint/tests/build as appropriate, check logs, and demonstrate correctness
+
+### 5. Demand Elegance (Balanced)
+- For non-trivial changes: pause and ask "is there a more elegant way?"
+- If a fix feels hacky: re-implement the elegant solution
+- Skip this for simple, obvious fixes; don't over-engineer
+- Challenge your own work before presenting it
+
+### 6. Autonomous Bug Fixing
+- When given a bug report: fix it directly; don't ask for hand-holding
+- Use logs, errors, and failing tests to drive root-cause resolution
+- Minimize context switching required from the user
+- Resolve failing CI/lint/test issues proactively when in scope
+
+### Task Management
+- **Plan First:** Keep an explicit, checkable plan in the active session
+- **Verify Plan:** Confirm assumptions before implementation when risk is non-trivial
+- **Track Progress:** Mark plan items complete as you go
+- **Explain Changes:** Give concise high-level summaries at each major step
+- **Document Results:** Provide final verification summary (what was run, what passed, residual risks)
+- **Capture Lessons:** Persist reusable rules in AGENTS.md when they are broadly applicable
+
+### Core Principles
+- **Simplicity First:** Make every change as simple as possible. Impact minimal code.
+- **No Laziness:** Find root causes. No temporary fixes. Senior developer standards.
+- **Minimal Impact:** Changes should only touch what's necessary. Avoid introducing bugs.

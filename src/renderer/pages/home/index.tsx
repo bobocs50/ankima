@@ -1,6 +1,6 @@
 import {
   CornerDownLeft,
-  Ban,
+  Settings,
   Image,
   Eye,
   LayoutGrid,
@@ -38,7 +38,7 @@ export default function HomePage() {
               className="text-white/50 transition-colors hover:text-white/80"
               aria-label="Disable"
             >
-              <Ban className="size-5" />
+              <Settings className="size-5" />
             </button>
           </div>
 
