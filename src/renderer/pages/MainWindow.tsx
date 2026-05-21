@@ -1,38 +1,15 @@
-import {
-  CornerDownLeft,
-  Settings,
-  Sparkles,
-  Paperclip,
-  BookPlus,
-  ChevronDown
-} from 'lucide-react';
+import { CornerDownLeft, Settings, Sparkles, Paperclip, BookPlus, FolderCog, ChevronDown } from 'lucide-react';
 import { IconButton } from '@/components/IconButton';
-import { useState } from 'react';
 
-/*
- * Glass background colors for the two HUD rows.
- * Light for search (top), dark for toolbar (bottom).
- */
 const GLASS_LIGHT = 'rgba(75, 75, 75, 0.6)';
 const GLASS_DARK = 'rgba(12, 12, 12, 0.95)';
 
 export default function MainWindow() {
-
-  const triggerButton = () => {
-    window.api.postHelloWorld();
-  }
-
   return (
     <main className="h-screen w-screen">
-      {/*
-       * Main HUD container
-       * - draggable-area: allows window dragging (defined in global.css)
-       * - rounded-2xl + overflow-hidden: clips children to rounded shape
-       */}
       <div className="draggable-area flex flex-col rounded-2xl overflow-hidden">
-        {/* Search Row - lighter glass background */}
         <div
-          className="flex items-center px-5 py-2.5 gap-3 backdrop-blur-2xl"
+          className="flex items-center gap-3 px-5 py-2.5 backdrop-blur-2xl"
           style={{ background: GLASS_LIGHT }}
         >
           <input
@@ -49,26 +26,23 @@ export default function MainWindow() {
           </button>
         </div>
 
-        {/* Toolbar Row - darker glass background */}
         <div
           className="flex items-center px-5 py-2.5 backdrop-blur-2xl"
           style={{ background: GLASS_DARK }}
         >
-          {/* Left: Settings button */}
-          <div onClick={()=> triggerButton()} className="w-20">
-            <IconButton icon={Settings} label="Settings" />
+          <div className="w-20">
+            <IconButton icon={Settings} label="Settings" onClick={() => window.api.postHelloWorld()} />
           </div>
 
-          {/* Center: Tool buttons */}
-          <div className="flex-1 flex items-center justify-center gap-6">
-            <IconButton icon={BookPlus} label="Card" />
-            <IconButton icon={Sparkles} label="AI" />
+          <div className="flex flex-1 items-center justify-center gap-6">
+            <IconButton icon={BookPlus} label="Create Flashcard" />
+            <IconButton icon={Sparkles} label="Auto AI" />
+            <IconButton icon={Paperclip} label="Context" />
             <div className="h-4 w-px bg-white/20" />
-            <IconButton icon={Paperclip} label="Attach" />
+            <IconButton icon={FolderCog} label="Anki Deck" />
           </div>
 
-          {/* Right: History dropdown */}
-          <div className="w-20 flex justify-end">
+          <div className="flex w-20 justify-end">
             <button
               type="button"
               className="flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[13px] text-white/60 transition-colors hover:bg-white/25"
