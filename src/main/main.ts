@@ -4,7 +4,8 @@ import './ipc';
 
 const isDev = !app.isPackaged;
 
-function createWindow() {
+//Windows
+function createFloatingHud() {
   const window = new BrowserWindow({
     width: 680,
     height: 125,
@@ -37,15 +38,16 @@ function createWindow() {
   void window.loadFile(path.join(__dirname, '../../dist/index.html'));
 }
 
+//Starts after app is finished initializing -> Runs once
 app.whenReady().then(() => {
-  createWindow();
+  createFloatingHud();
+});
 
-  app.on('activate', () => {
+app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
+      createFloatingHud();
     }
   });
-});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

@@ -1,5 +1,7 @@
 # Vision
 
+screenshot -> ai should detext if there are images which are relevant . crops them and puts them together with the text
+
 ## Purpose
 
 Ankimax exists to help students turn lecture material into real understanding and then into strong Anki cards as fast as possible.
