@@ -13,7 +13,7 @@ function createFloatingHud() {
     transparent: true,
     alwaysOnTop: true,
     hasShadow: false,
-    resizable: false,
+    resizable: true,
     skipTaskbar: false,
     backgroundColor: '#00000000',
     webPreferences: {

@@ -6,6 +6,8 @@ declare global {
       getVersion: () => Promise<string>;
       postHelloWorld: () => Promise<void>;
       postMessage: (message: string) => Promise<void>;
+      expandWindow: () => Promise<void>;
+      collapseWindow: () => Promise<void>;
     };
   }
 }
