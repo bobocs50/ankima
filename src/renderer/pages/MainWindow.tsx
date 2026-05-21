@@ -1,22 +1,27 @@
 import {
   CornerDownLeft,
   Settings,
-  Image,
-  Eye,
-  LayoutGrid,
-  AudioLines,
+  Sparkles,
+  Paperclip,
+  BookPlus,
   ChevronDown
 } from 'lucide-react';
 import { IconButton } from '@/components/IconButton';
+import { useState } from 'react';
 
 /*
  * Glass background colors for the two HUD rows.
  * Light for search (top), dark for toolbar (bottom).
  */
-const GLASS_LIGHT = 'rgba(80, 70, 90, 0.85)';
-const GLASS_DARK = 'rgba(35, 30, 45, 0.9)';
+const GLASS_LIGHT = 'rgba(75, 75, 75, 0.6)';
+const GLASS_DARK = 'rgba(12, 12, 12, 0.95)';
 
 export default function MainWindow() {
+
+  const triggerButton = () => {
+    window.api.postHelloWorld();
+  }
+
   return (
     <main className="h-screen w-screen">
       {/*
@@ -50,16 +55,16 @@ export default function MainWindow() {
           style={{ background: GLASS_DARK }}
         >
           {/* Left: Settings button */}
-          <div className="w-20">
+          <div onClick={()=> triggerButton()} className="w-20">
             <IconButton icon={Settings} label="Settings" />
           </div>
 
           {/* Center: Tool buttons */}
           <div className="flex-1 flex items-center justify-center gap-6">
-            <IconButton icon={Image} label="Screenshot" />
-            <IconButton icon={Eye} label="Vision" />
-            <IconButton icon={LayoutGrid} label="Grid" />
-            <IconButton icon={AudioLines} label="Audio" />
+            <IconButton icon={BookPlus} label="Card" />
+            <IconButton icon={Sparkles} label="AI" />
+            <div className="h-4 w-px bg-white/20" />
+            <IconButton icon={Paperclip} label="Attach" />
           </div>
 
           {/* Right: History dropdown */}
