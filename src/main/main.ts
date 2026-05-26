@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, desktopCapturer } from 'electron';
 import path from 'node:path';
 import './ipc';
 
@@ -41,6 +41,10 @@ function createFloatingHud() {
 //Starts after app is finished initializing -> Runs once
 app.whenReady().then(() => {
   createFloatingHud();
+  if (!app.isPackaged) {
+    // Trigger permission prompt in development mode
+    desktopCapturer.getSources({ types: ['screen'], thumbnailSize: { width: 1, height: 1 } }).catch(() => {});
+  }
 });
 
 app.on('activate', () => {

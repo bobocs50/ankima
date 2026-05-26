@@ -6,7 +6,7 @@ contextBridge.exposeInMainWorld('api', {
   getVersion: () => ipcRenderer.invoke('app:get-version'),
 
   //Message API
-  postMessage: (message: string) => ipcRenderer.invoke('message:post-message', message),
+  postMessage: (message: string, captureEnabled: boolean) => ipcRenderer.invoke('message:post-message', message, captureEnabled),
 
   //Window API
   expandWindow: () => ipcRenderer.invoke('window:expand'),

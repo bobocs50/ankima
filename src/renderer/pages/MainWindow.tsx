@@ -40,9 +40,10 @@ function ControlsBar({ borderTop = false }: { borderTop?: boolean }) {
 export default function MainWindow() {
 
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; text: string }[]>([]);
+  const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; text: string; screenViewed?: boolean }[]>([]);
   const [expanded, setExpanded] = useState(false);
   const [waitingForResponse, setWaitingForResponse] = useState(false);
+  const [captureEnabled, setCaptureEnabled] = useState(true);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -52,23 +53,26 @@ export default function MainWindow() {
   const handleSubmit = async () => {
     if (!message.trim() || waitingForResponse) return;
 
+    const capture = captureEnabled;
+    setCaptureEnabled(false);
+
     // Add user message to chat, then clear input
     setMessages((prev) => [...prev, { role: 'user', text: message }]);
     setMessage('');
     setWaitingForResponse(true);
 
-    // Expand window 
+    // Expand window
     if (!expanded) {
       setExpanded(true);
       window.api.expandWindow();
     }
 
-    const words = (await window.api.postMessage(message)).split(' ');
+    const words = (await window.api.postMessage(message, capture)).split(' ');
     let i = 0;
-    setMessages(prev => [...prev, { role: 'assistant', text: '' }]);
+    setMessages(prev => [...prev, { role: 'assistant', text: '', screenViewed: capture }]);
     const interval = setInterval(() => {
       i++;
-      setMessages(prev => { const u = [...prev]; u[u.length - 1] = { role: 'assistant', text: words.slice(0, i).join(' ') }; return u; });
+      setMessages(prev => { const u = [...prev]; u[u.length - 1] = { ...u[u.length - 1], text: words.slice(0, i).join(' ') }; return u; });
       if (i >= words.length) {
         clearInterval(interval);
         setWaitingForResponse(false);
@@ -111,23 +115,39 @@ export default function MainWindow() {
           </button>
         </div>
 
-        {/* Response area */}
+        {/* Response area — only visible when window is expanded */}
         {expanded && (
-          <div className="flex-1 overflow-y-auto px-5 py-4 backdrop-blur-2xl" style={{ background: GLASS_DARK }}>
+          // Scrollable chat history container
+          <div className="interactive flex-1 overflow-y-auto px-5 py-4 backdrop-blur-2xl" style={{ background: GLASS_DARK }}>
+
+            {/* Render every message in the conversation array */}
             {messages.map((msg, i) => (
+              // Align the row: user messages go right, AI messages go left
               <div key={i} className={`mb-4 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
                 {msg.role === 'user' ? (
+                  // User message
                   <span className="inline-block rounded-2xl bg-white/10 px-4 py-2 text-[14px] text-white/70">{msg.text}</span>
                 ) : (
-                  <p className="text-[14px] leading-relaxed text-white/90">{msg.text}</p>
+                  // AI message
+                  <div>
+                    {/* Show label if screen was captured for this specific message */}
+                    {msg.screenViewed && (
+                      <p className="mb-1 text-[11px] text-white/35">Viewed Screen</p>
+                    )}
+                    <p className="text-[14px] leading-relaxed text-white/90">{msg.text}</p>
+                  </div>
                 )}
               </div>
             ))}
+
+            {/* Pulsing dot — shown while waiting for the AI's first word to arrive */}
             {waitingForResponse && messages[messages.length - 1]?.role !== 'assistant' && (
               <div className="mb-4 text-left">
                 <span className="inline-block size-3 rounded-full bg-white/50 animate-pulse" />
               </div>
             )}
+
+            {/* Invisible anchor — scrolled into view whenever messages update */}
             <div ref={bottomRef} />
           </div>
         )}
