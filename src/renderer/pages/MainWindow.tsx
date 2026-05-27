@@ -1,3 +1,4 @@
+import ReactMarkdown from 'react-markdown';
 import { ArrowLeft, Square, CornerDownLeft, Settings, Sparkles, Paperclip, BookPlus, FolderCog, ChevronDown } from 'lucide-react';
 import { IconButton } from '@/components/IconButton';
 import { useState, useEffect, useRef } from 'react';
@@ -134,7 +135,9 @@ export default function MainWindow() {
                     {msg.screenViewed && (
                       <p className="mb-1 text-[11px] text-white/35">Viewed Screen</p>
                     )}
-                    <p className="text-[14px] leading-relaxed text-white/90">{msg.text}</p>
+                    <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-li:my-0 prose-headings:my-2 prose-headings:text-white/90 prose-p:text-white/90 prose-li:text-white/90 prose-strong:text-white prose-code:text-white/80">
+                      <ReactMarkdown>{msg.text}</ReactMarkdown>
+                    </div>
                   </div>
                 )}
               </div>
