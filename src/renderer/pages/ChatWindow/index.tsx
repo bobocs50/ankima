@@ -1,18 +1,47 @@
 import ReactMarkdown from 'react-markdown';
-import { ArrowLeft, Square, CornerDownLeft } from 'lucide-react';
+import { ArrowLeft, Square, CornerDownLeft, Copy, Check } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 const GLASS_LIGHT = 'rgba(75, 75, 75, 0.6)';
 const GLASS_DARK = 'rgba(12, 12, 12, 0.95)';
 
+function CodeBlock({ children, className }: { children?: React.ReactNode; className?: string }) {
+  const [copied, setCopied] = useState(false);
+  const code = String(children).replace(/\n$/, '');
+  const isBlock = className?.startsWith('language-');
+
+  if (!isBlock) return <code className={className}>{children}</code>;
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        aria-label="Copy code"
+        onClick={handleCopy}
+        className="absolute right-2 top-2 rounded p-1 text-white/40 transition-colors hover:bg-white/10 hover:text-white/70"
+      >
+        {copied ? <Check className="size-3" /> : <Copy className="size-3" />}
+      </button>
+      <code className={className}>{children}</code>
+    </div>
+  );
+}
+
 interface ChatWindowProps {
   expanded: boolean;
+  showBack?: boolean;
   onExpand: () => void;
   onCollapse: () => void;
   captureEnabled: boolean;
 }
 
-export default function ChatWindow({ expanded, onExpand, onCollapse, captureEnabled }: ChatWindowProps) {
+export default function ChatWindow({ expanded, showBack, onExpand, onCollapse, captureEnabled }: ChatWindowProps) {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; text: string; screenViewed?: boolean }[]>([]);
   const [waitingForResponse, setWaitingForResponse] = useState(false);
@@ -54,7 +83,7 @@ export default function ChatWindow({ expanded, onExpand, onCollapse, captureEnab
     <>
       {/* Input bar */}
       <div className="flex items-center gap-3 px-5 py-2.5 backdrop-blur-2xl shrink-0" style={{ background: GLASS_LIGHT }}>
-        {expanded && (
+        {(expanded || showBack) && (
           <button type="button" aria-label="Back" onClick={onCollapse}
             className="flex items-center justify-center rounded-lg p-2 text-white/70 transition-colors hover:bg-white/20 hover:text-white/90">
             <ArrowLeft className="size-4" />
@@ -88,7 +117,7 @@ export default function ChatWindow({ expanded, onExpand, onCollapse, captureEnab
                     <p className="mb-1 text-[11px] text-white/35">Viewed Screen</p>
                   )}
                   <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-li:my-0 prose-headings:my-2 prose-headings:text-white/90 prose-p:text-white/90 prose-li:text-white/90 prose-strong:text-white prose-code:text-white/80">
-                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                    <ReactMarkdown components={{ code: CodeBlock }}>{msg.text}</ReactMarkdown>
                   </div>
                 </div>
               )}

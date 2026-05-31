@@ -64,13 +64,13 @@ export default function MainWindow() {
       <div className={`draggable-area flex flex-col rounded-2xl overflow-hidden w-full ${activePanel !== null ? 'h-full' : ''}`}>
         <ChatWindow
           expanded={activePanel === 'chat'}
+          showBack={activePanel !== null}
           onExpand={handleOpenChat}
           onCollapse={handleCollapse}
           captureEnabled={captureEnabled}
         />
         <FlashcardWindow
           expanded={activePanel === 'flashcard'}
-          onCollapse={handleCollapse}
         />
         {/* Controls area */}
         <ControlsBar borderTop={activePanel !== null} captureEnabled={captureEnabled} onToggleCapture={() => setCaptureEnabled(v => !v)} autoAiEnabled={autoAiEnabled} onToggleAutoAi={() => setAutoAiEnabled(v => !v)} onOpenFlashcard={handleOpenFlashcard} />
