@@ -20,7 +20,6 @@ function ControlsBar({ borderTop = false, captureEnabled, onToggleCapture, autoA
         <IconButton icon={BookPlus} label="Create Flashcard" onClick={onOpenFlashcard} />
         <IconButton icon={Sparkles} label="Auto AI" active={autoAiEnabled} onClick={onToggleAutoAi} />
         <IconButton icon={Eye} label="Capture Screen" active={captureEnabled} onClick={onToggleCapture} />
-        <IconButton icon={Paperclip} label="Context" />
         <div className="h-4 w-px bg-white/20" />
         <IconButton icon={FolderCog} label="Anki Deck" />
       </div>
@@ -43,6 +42,8 @@ export default function MainWindow() {
   const [activePanel, setActivePanel] = useState<'chat' | 'flashcard' | null>(null);
   const [captureEnabled, setCaptureEnabled] = useState(false);
   const [autoAiEnabled, setAutoAiEnabled] = useState(false);
+  const [flashFront, setFlashFront] = useState('');
+  const [flashBack, setFlashBack] = useState('');
 
   const handleOpenChat = () => {
     setActivePanel('chat');
@@ -71,6 +72,10 @@ export default function MainWindow() {
         />
         <FlashcardWindow
           expanded={activePanel === 'flashcard'}
+          front={flashFront}
+          back={flashBack}
+          onFrontChange={setFlashFront}
+          onBackChange={setFlashBack}
         />
         {/* Controls area */}
         <ControlsBar borderTop={activePanel !== null} captureEnabled={captureEnabled} onToggleCapture={() => setCaptureEnabled(v => !v)} autoAiEnabled={autoAiEnabled} onToggleAutoAi={() => setAutoAiEnabled(v => !v)} onOpenFlashcard={handleOpenFlashcard} />
